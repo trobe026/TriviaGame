@@ -1,0 +1,24 @@
+html, body{
+  background-color: #25274D;
+  color: #AAABB8;
+  text-align: center;
+}
+
+.jumbotron {
+  background-color: #29648A;
+  color: #ccc;
+}
+
+.btn-block {
+  background-color: #29648A;
+  color: #2E9CCA;
+}
+
+.footer {
+  height: 50px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background-color: #29648A;
+  border-top: 1px solid #2E9CCA;
+}
