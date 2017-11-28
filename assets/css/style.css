@@ -1,24 +1,29 @@
 html, body{
   background-color: #25274D;
-  color: #AAABB8;
+  color: #2E9CCA;
   text-align: center;
 }
 
 .jumbotron {
   background-color: #29648A;
-  color: #ccc;
+  position: relative;
 }
 
 .btn-block {
   background-color: #29648A;
-  color: #2E9CCA;
 }
 
 .footer {
-  height: 50px;
+  height: 100px;
   width: 100%;
   position: absolute;
   bottom: 0;
   background-color: #29648A;
   border-top: 1px solid #2E9CCA;
+}
+
+#curTime {
+  position: absolute;
+  right: 1%;
+  bottom: 0;
 }
