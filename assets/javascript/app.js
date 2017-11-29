@@ -13,32 +13,32 @@ var questions = [
     correctAnswer: "c"
   },
   {
-    question: "Which of the following is NOT a stringed instrument?",
+    question: "How many keys are on a typical piano?",
     answers: {
-      a: "Viola",
-      b: "Lute",
-      c: "Harpsichord",
-      d: "Dobro"
+      a: "88",
+      b: "78",
+      c: "112",
+      d: "63"
     },
     correctAnswer: "a"
   },
   {
-    question: "Which of the following is NOT a stringed instrument?",
+    question: 'Which of these instruments is a "Woodwind"?',
     answers: {
-      a: "Viola",
-      b: "Lute",
-      c: "Harpsichord",
-      d: "Dobro"
+      a: "Trombone",
+      b: "French Horn",
+      c: "Trumpet",
+      d: "Saxophone"
     },
     correctAnswer: "d"
   },
   {
-    question: "Which of the following is NOT a stringed instrument?",
+    question: "Which of the following is lowest?",
     answers: {
-      a: "Viola",
-      b: "Lute",
-      c: "Harpsichord",
-      d: "Dobro"
+      a: "Alto",
+      b: "Bass",
+      c: "Soprano",
+      d: "Tenor"
     },
     correctAnswer: "b"
   }
@@ -58,7 +58,7 @@ function myTimer () {
   var t = d.toLocaleTimeString();
   $('#curTime').html("<p> Current Time is: " + t + "</p>")
 }
-
+// time stop
 function myStopFunction() {
   clearInterval(myVar);
 }
@@ -102,8 +102,7 @@ function decrement() {
           for (letter in currentQuestion.answers) {
             answers.push(
               `<label>
-                <input type="radio" name="question${questionNumber}"
-            value="${letter}">
+                <input type="radio" name="question${questionNumber}" value="${letter}">
                 ${letter} :
                 ${currentQuestion.answers[letter]}
                 </label>`
@@ -120,6 +119,23 @@ function decrement() {
     // display results
     function showResults() {
       console.log('test');
+      const answerContainers = quizContainer.querySelectorAll('.answers');
+
+      let numCorrect = 0;
+
+      questions.forEach( (currentQuestion, questionNumber) => {
+        var answerContainer = answerContainers[questionNumber];
+        var selector = 'input[name=question' + questionNumber + ']:checked';
+        var userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+        if(userAnswer === currentQuestion.correctAnswer) {
+          numCorrect ++;
+          answerContainers[questionNumber].style.color = 'lightgreen';
+        } else {
+          answerContainers[questionNumber].style.color = 'red';
+        }
+      });
+      resultsContainer.innerHTML = numCorrect + ' out of ' + myQuestions.length;
     }
 
     buildQuiz();
