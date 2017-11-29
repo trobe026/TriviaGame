@@ -45,19 +45,12 @@ var questions = [
 ];
 
 // display quiz questions
-
   function buildQuiz() {
-    // we'll need a place to store the HTML output
     var output = [];
 
-    // for each question...
     questions.forEach((currentQuestion, questionNumber) => {
-      // we'll want to store the list of answer choices
-      const answers = [];
-
-      // and for each available answer...
+      var answers = [];
       for (letter in currentQuestion.answers) {
-        // ...add an HTML radio button
         answers.push(
           `<label>
              <input type="radio" name="question${questionNumber}" value="${letter}">
@@ -66,7 +59,6 @@ var questions = [
            </label>`
         );
       }
-
       // add this question and its answers to the output
       output.push(
         `<div class="slide">
@@ -75,10 +67,37 @@ var questions = [
          </div>`
       );
     });
-
-    // finally combine our output list into one string of HTML and put it on the page
-    quizContainer.innerHTML = output.join("");
+    $('#quiz').html(output.join(""));
   }
+  buildQuiz();
+  // hide until start button click
+  $('#quiz').hide();
+
+  // next slide on correct answer click
+  $('label').on('click', function () {
+    console.log('test');
+    questions.forEach((currentQuestion, questionNumber) => {
+      var answerContainers = quizContainer.querySelectorAll(".answers");
+      var answerContainer = answerContainers[questionNumber];
+      var selector = `input[name=question${questionNumber}]:checked`;
+      var userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+      if (userAnswer === currentQuestion.correctAnswer) {
+        seconds = 20;
+        // $('#quiz').text('Correct!');
+        console.log('test2');
+
+        $('#quiz').show();
+        showNextSlide();
+      } else {
+
+
+      }
+      // if (userAnswer !== currentQuestion.correctAnswer) {
+      //   $('#quiz').html(`<h2>Wrong Answer! The Correct Answer was: ${currentQuestion.correctAnswer} </h2>`);
+      // }
+    });
+  });
 
 // display results
 
@@ -114,6 +133,8 @@ var questions = [
     $('#results').html(`${numCorrect} out of ${questions.length}`);
   }
 
+// slides
+
   function showSlide(n) {
     slides[currentSlide].classList.remove("active-slide");
     slides[n].classList.add("active-slide");
@@ -141,25 +162,22 @@ var questions = [
   function showPreviousSlide() {
     showSlide(currentSlide - 1);
   }
-// Storing elements in variables:
+
+// Stored elements:
   var quizContainer = $("#quiz")[0];
   var resultsContainer = $("#results")[0];
   var submitButton = $("#submit")[0];
-
-  // display quiz right away
-  buildQuiz();
-
-  var previousButton = document.getElementById("previous");
-  var nextButton = document.getElementById("next");
+  var previousButton = $("#previous")[0];
+  var nextButton = $("#next")[0];
   var slides = document.querySelectorAll(".slide");
   let currentSlide = 0;
 
   showSlide(0);
 
   // on submit, show results
-  submitButton.addEventListener("click", showResults);
-  previousButton.addEventListener("click", showPreviousSlide);
-  nextButton.addEventListener("click", showNextSlide);
+  $('#submit').on('click', showResults);
+  $('#previous').on('click', showPreviousSlide);
+  $('#next').on('click', showNextSlide);
 
 
   // current time function and display
@@ -178,7 +196,7 @@ var questions = [
   }
 
   $(".btn-danger").on("click", function() {
-    myStopFunction()
+    stop()
   });
 
   // countdown variables
@@ -203,69 +221,21 @@ var questions = [
      }
    }
 
+   function correct() {
+     $('#quiz').text('Correct!');
+   }
 
+   function run() {
+      intervalID = setInterval(decrement, 1000);
+    }
 
 // start game
 
   $('.btn-block').on("click", function() {
     // start timer
     run();
+    $('#quiz').show();
 
     });
 
-//     function showResults() {
-//     // gather answer containers from our quiz
-//     const answerContainers = quizContainer.querySelectorAll(".answers");
-//
-//     // keep track of user's answers
-//     let numCorrect = 0;
-//
-//     // for each question...
-//     questions.forEach((currentQuestion, questionNumber) => {
-//       // find selected answer
-//       const answerContainer = answerContainers[questionNumber];
-//       const selector = `input[name=question${questionNumber}]:checked`;
-//       const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-//
-//       // if answer is correct
-//       if (userAnswer === currentQuestion.correctAnswer) {
-//         // add to the number of correct answers
-//         numCorrect++;
-//
-//         // color the answers green
-//         answerContainers[questionNumber].style.color = "lightgreen";
-//       } else {
-//         // if answer is wrong or blank
-//         // color the answers red
-//         answerContainers[questionNumber].style.color = "red";
-//       }
-//     });
-//
-//     // show number of correct answers out of total
-//     resultsContainer.innerHTML = `${numCorrect} out of ${questions.length}`;
-//   }
-// submitButton.addEventListener('click', showResults());
-//     // $('#submit').on("click", function showResults() {
-//     //   console.log('test');
-//     //   const answerContainers = quizContainer.querySelectorAll('.answers');
-//     //
-//     //   let numCorrect = 0;
-//     //
-//     //   questions.forEach( (currentQuestion, questionNumber) => {
-//     //     const answerContainer = answerContainers[questionNumber];
-//     //     const selector = `input[name=question${questionNumber}]:checked`;
-//     //     const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-//     //
-//     //     if(userAnswer === currentQuestion.correctAnswer) {
-//     //       numCorrect ++;
-//     //       answerContainers[questionNumber].style.color = 'lightgreen';
-//     //     } else {
-//     //       answerContainers[questionNumber].style.color = 'red';
-//     //     }
-//     //   });
-//     //   resultsContainer.innerHTML = numCorrect + ' out of ' + questions.length;
-//     // });
-//
-//
-//     // display results on click
  });
